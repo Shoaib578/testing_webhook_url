@@ -7,8 +7,7 @@ app = Flask(__name__)
 def webhook():
     # Get data from query parameters
     data = request.data
-    
-    # Log the received data
+    # Log the received 
     print(f"Received data: {data}")
     app.logger.info(f"Received data: {data}")
     # Send a response back to the sender
