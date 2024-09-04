@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import logging
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ def webhook():
     
     # Log the received data
     print(f"Received data: {data}")
-
+    logging.info("Received data: {data}")
     # Send a response back to the sender
     return jsonify({"status": "success", "data": "Hello"}), 200
 
