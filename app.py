@@ -10,7 +10,7 @@ def webhook():
     
     # Log the received data
     print(f"Received data: {data}")
-    logging.info("Received data: {data}")
+    app.logger.info(f"Received data: {data}")
     # Send a response back to the sender
     return jsonify({"status": "success", "data": "Hello"}), 200
 
