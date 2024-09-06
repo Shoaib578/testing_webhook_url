@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import logging
+import json
 
 app = Flask(__name__)
 
@@ -7,6 +8,12 @@ app = Flask(__name__)
 def new_user():
     data = request.data
     app.logger.info(f"JSON data :{data}")
+
+    json_string = data.decode('utf-8')
+
+    # Step 2: Parse the string into a JSON object
+    json_data = json.loads(json_string)
+
     # # Extract required fields
     # user = {
     #     'id': data.get('id'),
@@ -30,7 +37,7 @@ def new_user():
     # app.logger.info(f"Received user data: {user}")
     
     # Return a response
-    return jsonify({'message': 'User added successfully'}), 200
+    return jsonify({'message': 'User added successfully','user':json_data}), 200
 
 
 
