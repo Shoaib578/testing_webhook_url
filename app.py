@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route('/new_user', methods=['POST'])
 def new_user():
     data = request.json
-    app.logger.info(f"JSON data : {data}")
+    app.logger.info(f"JSON data :{data}")
     # Extract required fields
     user = {
         'id': data.get('id'),
@@ -23,13 +23,14 @@ def new_user():
         'last_order_name': data.get('last_order_name'),
         'currency': data.get('currency', 'ZAR'),  # Default to ZAR
         'phone': data.get('phone'),
+        
         'sms_marketing_consent': data.get('sms_marketing_consent'),
         'admin_graphql_api_id': data.get('admin_graphql_api_id'),
     }
     app.logger.info(f"Received user data: {user}")
     
     # Return a response
-    return jsonify({'message': 'User added successfully', 'user': user}), 201
+    return jsonify({'message': 'User added successfully', 'user': user}), 200
 
 
 
