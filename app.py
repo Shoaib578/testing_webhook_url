@@ -6,6 +6,7 @@ app = Flask(__name__)
 @app.route('/new_user', methods=['POST'])
 def new_user():
     data = request.json
+    app.logger.info(f"JSON data : {data}")
     # Extract required fields
     user = {
         'id': data.get('id'),
@@ -22,7 +23,6 @@ def new_user():
         'last_order_name': data.get('last_order_name'),
         'currency': data.get('currency', 'ZAR'),  # Default to ZAR
         'phone': data.get('phone'),
-        'email_marketing_consent': data.get('email_marketing_consent', {}).get('state', 'not_subscribed'),
         'sms_marketing_consent': data.get('sms_marketing_consent'),
         'admin_graphql_api_id': data.get('admin_graphql_api_id'),
     }
