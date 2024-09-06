@@ -34,7 +34,7 @@ def new_user():
     #     'admin_graphql_api_id': data.get('admin_graphql_api_id'),
     # }
     # app.logger.info(f"Received user data: {user}")
-
+    print(f"JSON data: {json_data}")
 
     app.logger.info(f"JSON data :{json_data}")
     
