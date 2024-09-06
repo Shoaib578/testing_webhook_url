@@ -34,10 +34,12 @@ def new_user():
     #     'admin_graphql_api_id': data.get('admin_graphql_api_id'),
     # }
     # app.logger.info(f"Received user data: {user}")
+
+
     app.logger.info(f"JSON data :{json_data}")
     
     # Return a response
-    return jsonify({'message': 'User added successfully','user':json_data}), 200
+    return jsonify({'message': 'User added successfully','user':json_data})
 
 
 
