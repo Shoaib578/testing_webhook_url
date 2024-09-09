@@ -1,0 +1,85 @@
+<!-- templates/checkouts.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkouts</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Checkouts</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Token</th>
+                <th>Cart Token</th>
+                <th>Email</th>
+                <th>Gateway</th>
+                <th>Buyer Accepts Marketing</th>
+                <th>Buyer Accepts SMS Marketing</th>
+                <th>SMS Marketing Phone</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Landing Site</th>
+                <th>Note</th>
+                <th>Referring Site</th>
+                <th>Taxes Included</th>
+                <th>Total Weight</th>
+                <th>Currency</th>
+                <th>Completed At</th>
+                <th>Phone</th>
+                <th>Customer Locale</th>
+                <th>Subtotal Price</th>
+                <th>Total Price</th>
+                <th>Total Discounts</th>
+                <th>Total Tax</th>
+                <th>Abandoned Checkout URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for checkout in checkouts %}
+            <tr>
+                <td>{{ checkout.id }}</td>
+                <td>{{ checkout.token }}</td>
+                <td>{{ checkout.cart_token }}</td>
+                <td>{{ checkout.email }}</td>
+                <td>{{ checkout.gateway }}</td>
+                <td>{{ checkout.buyer_accepts_marketing }}</td>
+                <td>{{ checkout.buyer_accepts_sms_marketing }}</td>
+                <td>{{ checkout.sms_marketing_phone }}</td>
+                <td>{{ checkout.created_at }}</td>
+                <td>{{ checkout.updated_at }}</td>
+                <td>{{ checkout.landing_site }}</td>
+                <td>{{ checkout.note }}</td>
+                <td>{{ checkout.referring_site }}</td>
+                <td>{{ checkout.taxes_included }}</td>
+                <td>{{ checkout.total_weight }}</td>
+                <td>{{ checkout.currency }}</td>
+                <td>{{ checkout.completed_at }}</td>
+                <td>{{ checkout.phone }}</td>
+                <td>{{ checkout.customer_locale }}</td>
+                <td>{{ checkout.subtotal_price }}</td>
+                <td>{{ checkout.total_price }}</td>
+                <td>{{ checkout.total_discounts }}</td>
+                <td>{{ checkout.total_tax }}</td>
+                <td>{{ checkout.abandoned_checkout_url }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
