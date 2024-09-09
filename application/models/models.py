@@ -33,8 +33,9 @@ class User(db.Model):
         return f"<User {self.first_name} {self.last_name}>"
 
 
-# Define the Checkout model (all columns nullable)
 class Checkout(db.Model):
+    __tablename__ = 'checkout'
+
     id = db.Column(db.BigInteger, primary_key=True, nullable=True)
     token = db.Column(db.String(255), nullable=True)
     cart_token = db.Column(db.String(255), nullable=True)
@@ -60,6 +61,16 @@ class Checkout(db.Model):
     total_tax = db.Column(db.String(50), nullable=True)
     abandoned_checkout_url = db.Column(db.String(255), nullable=True)
 
+    # These fields are not directly supported by SQLAlchemy and should be handled as JSON text or similar.
+    line_items = db.Column(db.Text, nullable=True)  # Store JSON as text
+    discount_codes = db.Column(db.Text, nullable=True)  # Store JSON as text
+    tax_lines = db.Column(db.Text, nullable=True)  # Store JSON as text
+    customer = db.Column(db.Text, nullable=True)  # Store JSON as text
+
+    def __repr__(self):
+        return f"<Checkout id={self.id} email={self.email}>"
+
+        
 
 # Define the Cart model (all columns nullable)
 class Cart(db.Model):

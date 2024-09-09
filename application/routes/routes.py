@@ -44,51 +44,58 @@ def new_user():
 
 
 
-    
-
 @routes.route('/start_checkout', methods=['POST'])
 def start_checkout():
-    data = request.data
+    data = request.get_json()
 
-    # Step 1: Decode and parse the incoming JSON data
-    json_string = data.decode('utf-8')
-    json_data = json.loads(json_string)
+    try:
+        # Parse DateTime fields
+        def parse_datetime(dt_str):
+            if dt_str:
+                return datetime.fromisoformat(dt_str.replace('Z', '+00:00'))
+            return None
+        
+        # Create a new Checkout instance with the data
+        new_checkout = Checkout(
+            id=data.get('id'),
+            token=data.get('token'),
+            cart_token=data.get('cart_token'),
+            email=data.get('email'),
+            gateway=data.get('gateway'),
+            buyer_accepts_marketing=data.get('buyer_accepts_marketing'),
+            buyer_accepts_sms_marketing=data.get('buyer_accepts_sms_marketing'),
+            sms_marketing_phone=data.get('sms_marketing_phone'),
+            created_at=parse_datetime(data.get('created_at')),
+            updated_at=parse_datetime(data.get('updated_at')),
+            landing_site=data.get('landing_site'),
+            note=data.get('note'),
+            referring_site=data.get('referring_site'),
+            taxes_included=data.get('taxes_included'),
+            total_weight=data.get('total_weight'),
+            currency=data.get('currency'),
+            completed_at=parse_datetime(data.get('completed_at')),
+            phone=data.get('phone'),
+            customer_locale=data.get('customer_locale'),
+            subtotal_price=data.get('subtotal_price'),
+            total_price=data.get('total_price'),
+            total_discounts=data.get('total_discounts'),
+            total_tax=data.get('total_tax'),
+            abandoned_checkout_url=data.get('abandoned_checkout_url'),
+            line_items=json.dumps(data.get('line_items')),  # Convert to JSON string
+            discount_codes=json.dumps(data.get('discount_codes')),  # Convert to JSON string
+            tax_lines=json.dumps(data.get('tax_lines')),  # Convert to JSON string
+            customer=json.dumps(data.get('customer'))  # Convert to JSON string
+        )
 
-    # Step 2: Extract the relevant attributes from the parsed JSON data
-    checkout = Checkout(
-        id=json_data.get('id'),
-        token=json_data.get('token'),
-        cart_token=json_data.get('cart_token'),
-        email=json_data.get('email'),
-        gateway=json_data.get('gateway'),
-        buyer_accepts_marketing=json_data.get('buyer_accepts_marketing'),
-        buyer_accepts_sms_marketing=json_data.get('buyer_accepts_sms_marketing'),
-        sms_marketing_phone=json_data.get('sms_marketing_phone'),
-        created_at=datetime.fromisoformat(json_data.get('created_at')) if json_data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(json_data.get('updated_at')) if json_data.get('updated_at') else None,
-        landing_site=json_data.get('landing_site'),
-        note=json_data.get('note'),
-        referring_site=json_data.get('referring_site'),
-        taxes_included=json_data.get('taxes_included'),
-        total_weight=json_data.get('total_weight'),
-        currency=json_data.get('currency'),
-        completed_at=datetime.fromisoformat(json_data.get('completed_at')) if json_data.get('completed_at') else None,
-        phone=json_data.get('phone'),
-        customer_locale=json_data.get('customer_locale'),
-        subtotal_price=json_data.get('subtotal_price'),
-        total_price=json_data.get('total_price'),
-        total_discounts=json_data.get('total_discounts'),
-        total_tax=json_data.get('total_tax'),
-        abandoned_checkout_url=json_data.get('abandoned_checkout_url')
-    )
+        # Add the new checkout to the database
+        db.session.add(new_checkout)
+        db.session.commit()
 
-    # Add the checkout record to the session and commit it to the database
-    db.session.add(checkout)
-    db.session.commit()
+        return jsonify({"message": "Checkout created successfully!", "checkout": data}), 201
 
-    return jsonify({'message': 'Checkout data stored successfully', 'checkout_id': checkout.id}), 201
-
-
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 # Endpoint to handle POST request and store cart data
 @routes.route('/add_to_cart', methods=['POST'])
